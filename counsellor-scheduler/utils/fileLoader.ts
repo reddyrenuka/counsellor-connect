@@ -49,6 +49,12 @@ export function loadData(): DataStore {
 
 export function writeData<K extends keyof DataStore>(type: K, data: DataStore[K]): void {
   try {
+    // Ensure data directory exists
+    if (!fs.existsSync(DATA_DIR)) {
+      console.log(`[FileLoader] Creating data directory: ${DATA_DIR}`);
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+
     const filePath = getFilePath(type);
     const tempPath = `${filePath}.tmp`;
 

@@ -33,8 +33,8 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
-# data files
-/data/*.json
+# data directory exists but is initialized with empty files
+# /data/*.json
 
 # vercel
 .vercel
