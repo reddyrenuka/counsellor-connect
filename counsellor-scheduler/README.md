@@ -1,36 +1,180 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Counsellor Appointment Scheduler
+
+A Next.js-based appointment scheduling system for counselling sessions.
+
+## Features
+
+- ✅ Guest login (no registration required)
+- ✅ Password-protected admin access
+- ✅ JSON file-based data storage (no database needed)
+- ✅ Session management with HTTP-only cookies
+- ✅ Slot management (admin)
+- ✅ Appointment booking and cancellation
+- ✅ UTC timezone support with local display
+- ✅ Responsive Tailwind CSS design
+
+## Tech Stack
+
+- Next.js 16 with App Router
+- TypeScript
+- Tailwind CSS
+- Zod (validation)
+- iron-session (session management)
+- JSON file storage
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure Environment Variables
+
+Copy `.env.example` to `.env.local` and update the values:
+
+```bash
+cp .env.example .env.local
+```
+
+**Important:** Update these variables:
+- `ADMIN_EMAIL`: The email used for admin login
+- `ADMIN_PASSWORD`: Strong password for admin access
+- `SESSION_SECRET`: Generate a random 32+ character string
+
+### 3. Initialize Data Files
+
+The `data/` directory contains JSON files for storage:
+- `users.json` - User accounts
+- `appointments.json` - All appointments
+- `slots.json` - Available time slots
+- `config.json` - App configuration
+
+These are already initialized with empty data.
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### For Clients
 
-## Learn More
+1. Visit the homepage
+2. Click "Book an Appointment"
+3. Login as guest (provide name and email)
+4. View available slots and book appointments
+5. Manage your appointments from the dashboard
 
-To learn more about Next.js, take a look at the following resources:
+### For Admin (Counsellor)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Navigate to `/login`
+2. Switch to "Admin Login" tab
+3. Enter admin email and password (from `.env.local`)
+4. Access admin dashboard to:
+   - Create/remove availability slots
+   - View all appointments
+   - Cancel appointments
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API Endpoints
 
-## Deploy on Vercel
+### Authentication
+- `POST /api/auth/guest` - Guest login
+- `POST /api/auth/admin` - Admin login
+- `GET /api/auth/session` - Get current session
+- `POST /api/auth/logout` - Logout
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Slots
+- `GET /api/slots/available?date=YYYY-MM-DD` - Get available slots
+- `POST /api/slots/manage` - Create/remove slots (admin only)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Appointments
+- `POST /api/appointments/book` - Book appointment
+- `POST /api/appointments/cancel` - Cancel appointment
+- `GET /api/appointments/list` - List appointments
+
+## Project Structure
+
+```
+counsellor-scheduler/
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx           # Home page
+│   └── login/             # Login page
+├── pages/api/             # API routes
+│   ├── auth/              # Authentication endpoints
+│   ├── slots/             # Slot management
+│   └── appointments/      # Appointment management
+├── services/              # Business logic
+│   ├── authService.ts
+│   ├── slotService.ts
+│   └── appointmentService.ts
+├── utils/                 # Utilities
+│   ├── fileLoader.ts      # JSON file I/O
+│   ├── sessionManager.ts  # Session handling
+│   ├── validation.ts      # Zod schemas
+│   └── errorHandler.ts    # Error management
+├── types/                 # TypeScript types
+│   ├── user.ts
+│   ├── appointment.ts
+│   ├── slot.ts
+│   └── session.ts
+└── data/                  # JSON storage
+    ├── users.json
+    ├── appointments.json
+    ├── slots.json
+    └── config.json
+```
+
+## Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Import repository in Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy
+
+**Important:** Ensure the `data/` directory is writable or use a different persistence strategy for production.
+
+## Development Status
+
+### ✅ Completed
+- Backend API layer (auth, slots, appointments)
+- Session management
+- Data persistence with JSON files
+- TypeScript types and validation
+- Home and login pages
+
+### 🚧 Next Steps
+- Client dashboard page
+- Booking interface with calendar
+- Admin dashboard
+- Slot management UI
+- Appointment list views
+
+## Architecture Decisions
+
+See `/docs/superpowers/specs/2026-03-16-counsellor-scheduler-architecture.md` for detailed architecture documentation.
+
+Key decisions:
+- **No Google OAuth** - Guest login with password-based admin access
+- **1-day session expiry** - For security
+- **UTC storage** - All times stored in UTC, displayed in local timezone
+- **Email notifications** - Mock initially, SMTP integration later
+- **Vercel deployment** - Free tier with auto-deployments
+
+## Security Notes
+
+- Sessions use HTTP-only cookies (secure in production)
+- Admin password should be strong and stored in environment variables
+- JSON files should have appropriate file permissions
+- HTTPS required for production deployment
+
+## License
+
+Private project for counselling services.
