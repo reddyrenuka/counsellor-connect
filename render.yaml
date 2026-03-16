@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: counsellor-scheduler
+    runtime: node
+    rootDir: counsellor-scheduler
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+    disk:
+      name: counsellor-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
