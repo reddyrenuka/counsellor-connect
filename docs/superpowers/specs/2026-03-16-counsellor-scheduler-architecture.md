@@ -262,19 +262,19 @@ No ADRs exist yet in this project. This architecture document serves as the foun
 
 ### For Engineering Manager:
 
-1. **OAuth Consent Screen**: Do we have a Google Cloud project set up, or should we use a development OAuth app (limited to <100 test users)?
+1. **OAuth Consent Screen**: ✅ **DECIDED - Skip Gmail OAuth, use guest login only**
 
-2. **Admin Email Configuration**: Should admin email be hardcoded in `.env` or configurable via JSON file? (Recommendation: `.env` for security)
+2. **Admin Email Configuration**: ✅ **DECIDED - Use password field on login. Admin enters email + password, validated against `.env` credentials**
 
-3. **Session Expiry**: How long should user sessions last? (Recommendation: 7 days for clients, 1 day for admin)
+3. **Session Expiry**: ✅ **DECIDED - 1 day (24 hours) for all users**
 
-4. **Guest User Management**: Should guest users receive email confirmations? If yes, we need to integrate an email service (e.g., SendGrid, Nodemailer). (Recommendation: Phase 2 feature)
+4. **Guest User Management**: ✅ **DECIDED - Send email confirmations. Use dummy/mock email service initially (logs to console/file), swap for real SMTP when credentials provided**
 
-5. **Concurrent Booking Conflicts**: Should we implement optimistic locking or accept rare double-booking scenarios? (Recommendation: Add mutex lock for appointment writes in Phase 1.1)
+5. **Concurrent Booking Conflicts**: ✅ **DECIDED - Use basic check-then-write validation (verify slot availability immediately before writing)**
 
-6. **Time Zone Handling**: Should slots be stored in UTC or local counsellor time? (Recommendation: Store in local time, display in client's local time with clear timezone indicator)
+6. **Time Zone Handling**: ✅ **DECIDED - Store all times in UTC, display in user's local timezone. Include timezone indicator in UI**
 
-7. **Deployment Target**: Where will this be deployed? (Vercel, AWS, local server?) This affects OAuth redirect URI configuration.
+7. **Deployment Target**: ✅ **DECIDED - Vercel (free tier, automatic deployments from Git)**
 
 ---
 
