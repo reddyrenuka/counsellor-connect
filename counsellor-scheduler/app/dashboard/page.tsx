@@ -115,15 +115,14 @@ export default function DashboardPage() {
         <div className="mb-8 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl shadow-lg p-8 border border-indigo-100">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Counsellor</h2>
           <div className="flex flex-col md:flex-row gap-8 items-start">
-            {/* Profile Picture Placeholder */}
+            {/* Profile Picture */}
             <div className="flex-shrink-0">
-              <div className="w-48 h-48 bg-gradient-to-br from-indigo-200 to-purple-200 rounded-lg flex items-center justify-center shadow-md">
-                <div className="text-center text-gray-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  <p className="text-sm">Photo</p>
-                </div>
+              <div className="w-48 h-48 rounded-lg overflow-hidden shadow-md">
+                <img
+                  src="/images/tanuja-reddy.png"
+                  alt="Tanuja Reddy - Professional Counsellor"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
 
